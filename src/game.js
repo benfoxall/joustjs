@@ -93,6 +93,11 @@ const _lose = () => {
   if(state & STARTED) {
     state = LOST
     button.className = ''
+
+    // vibrate and play a noise
+    if(navigator.vibrate) navigator.vibrate(800)
+    boom()
+
   }
 }
 
@@ -165,6 +170,9 @@ const loop = (timestamp) => {
   requestAnimationFrame(loop)
   traverse(timestamp)
   render(timestamp)
+
+  // we didn't really discuss this one
+  visualise(timestamp)
 }
 
 requestAnimationFrame(loop)
@@ -180,4 +188,104 @@ button.addEventListener('click', handle, false)
 button.addEventListener('touchstart', handle, false)
 
 
-document.body.appendChild(button)
+/*
+  Stuff I didn't have time to cover…
+
+  1. drawing a line - only gamma/beta for now, thickness
+     based on distance covered
+
+  2. playing a sound with the web audio api
+     (audio generated with as3sfxr)
+
+*/
+
+
+const size = Math.min(window.innerWidth, window.innerHeight) * 0.9
+
+const canvas = document.createElement('canvas')
+canvas.width = canvas.height = size
+const ctx = canvas.getContext('2d')
+ctx.translate(size/2,size/2);
+ctx.lineWidth = 10
+ctx.lineJoin = ctx.lineCap = 'round'
+ctx.strokeStyle = '#fff'
+
+const x = p => p.gamma * size/2.3
+const y = p => p.beta * size/2.3
+
+let _vfirst, _vcurrent;
+const visualise = timestamp => {
+
+  if((_vfirst == first) && (_vcurrent == current)) return
+  [_vfirst, _vcurrent] = [first, current]
+
+  ctx.clearRect(-size/2, -size/2, size, size)
+  ctx.save()
+
+  // works out weird
+  // ctx.rotate(-current.alpha)
+
+  ctx.lineWidth = (_distance * 11)
+
+  ctx.beginPath();
+  for(let p of points(first)) {
+    ctx.lineTo(x(p), y(p))
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+
+
+// initial setup, check for events before displaying button
+if(!('DeviceOrientationEvent' in window))
+  warning.textContent = 'device orientation not supported'
+
+else
+  new Promise(done => {
+    const check = (e) => {
+      if(e.gamma) {
+        window.removeEventListener('deviceorientation', check)
+        done(e)
+      }
+    }
+    window.addEventListener('deviceorientation', check)
+  })
+  .then(() => {
+    var centre = warning.parentNode
+    centre.removeChild(warning)
+    centre.appendChild(canvas)
+
+    document.body.appendChild(button)
+  })
+
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+const context = new AudioContext();
+
+const player = (url) => {
+  let buffer = null
+
+  const request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.responseType = 'arraybuffer';
+
+  request.onload = function() {
+    context.decodeAudioData(
+      request.response,
+      (_buffer) => buffer = _buffer,
+      console.log.bind(console, 'failed to load ' + url)
+    )
+  }
+  request.send();
+
+  return () => {
+    if (buffer) {
+      const source = context.createBufferSource()
+      source.buffer = buffer
+      source.connect(context.destination)
+      source.start(0)
+    }
+  }
+}
+
+const boom = player('lose.wav')

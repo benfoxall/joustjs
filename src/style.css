@@ -1,0 +1,78 @@
+html, body {
+  height: 100%
+}
+
+body {
+  transform-style: preserve-3d;
+  -webkit-perspective-origin: 50% 0;
+  perspective: 300px;
+  overflow: hidden;
+  font-family: sans-serif;
+  margin: 0;
+  text-align: center;
+  background: #ccc;
+}
+
+canvas {
+  max-width: 100%
+}
+
+button.hidden {
+  transform: rotateX(-135deg);
+  outline: none;
+}
+
+button {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transition: transform .75s;
+  will-change: transform;
+  transform-origin: 50% 0;
+  border: none;
+  background: #fff;
+  background: rgba(255,255,255,.2);
+  padding: .5em;
+  font-size: 3em;
+  font-size: 12vmin;
+  min-height: 20vh;
+}
+
+/* initial button animation */
+button {
+  animation-duration: .5s;
+  animation-name: show;
+  animation-iteration-count: 1;
+}
+
+@-webkit-keyframes show {
+  from  { transform: rotateX(-95deg); }
+  to   { transform: rotateX(0deg); }
+}
+
+
+#centre {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+#warning {
+
+  margin: 0;
+  padding: 2em 0;
+  font-size: 4vh;
+
+  animation-duration: 4s;
+  animation-name: fadein;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadein {
+  from  { opacity: 0 }
+  70%   { opacity: 0 }
+  to    { opacity: 1 }
+}

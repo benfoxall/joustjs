@@ -1,0 +1,100 @@
+html, body {
+  height: 100%
+}
+
+body {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-perspective-origin: 50% 0;
+  -webkit-perspective: 300px;
+          perspective: 300px;
+  overflow: hidden;
+  font-family: sans-serif;
+  margin: 0;
+  text-align: center;
+  background: #ccc;
+}
+
+canvas {
+  max-width: 100%
+}
+
+button.hidden {
+  -webkit-transform: rotateX(-135deg);
+          transform: rotateX(-135deg);
+  outline: none;
+}
+
+button {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  -webkit-transition: -webkit-transform .75s;
+  transition: -webkit-transform .75s;
+  transition: transform .75s;
+  transition: transform .75s, -webkit-transform .75s;
+  will-change: transform;
+  -webkit-transform-origin: 50% 0;
+          transform-origin: 50% 0;
+  border: none;
+  background: #fff;
+  background: rgba(255,255,255,.2);
+  padding: .5em;
+  font-size: 3em;
+  font-size: 12vmin;
+  /*box-shadow: rgba(1,1,1,0.5) 0 0 1em;*/
+  min-height: 20vh;
+}
+
+/* initial button animation */
+button {
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+  -webkit-animation-name: show;
+          animation-name: show;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+}
+
+@-webkit-keyframes show {
+  from  { -webkit-transform: rotateX(-95deg); transform: rotateX(-95deg); }
+  to   { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+}
+
+
+#centre {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+
+#warning {
+
+  margin: 0;
+  padding: 2em 0;
+  font-size: 4vh;
+
+  -webkit-animation-duration: 4s;
+
+          animation-duration: 4s;
+  -webkit-animation-name: fadein;
+          animation-name: fadein;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+}
+
+@-webkit-keyframes fadein {
+  from  { opacity: 0 }
+  70%   { opacity: 0 }
+  to    { opacity: 1 }
+}
+
+@keyframes fadein {
+  from  { opacity: 0 }
+  70%   { opacity: 0 }
+  to    { opacity: 1 }
+}
