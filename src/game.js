@@ -165,7 +165,6 @@ const render = timestamp => {
 
 }
 
-
 const loop = (timestamp) => {
   requestAnimationFrame(loop)
   traverse(timestamp)

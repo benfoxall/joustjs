@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel -d js src",
-    "watch": "babel -d js src -w & live-server --ignore=src,node_modules",
-    "css": "postcss --use autoprefixer src/style.css -o css/style.css",
-    "postinstall": "cp node_modules/babel-polyfill/dist/polyfill.js js/babel-polyfill.js"
+    "build": "babel -d build src",
+    "build-css": "postcss --use autoprefixer src/style.css -o build/style.css",
+    "watch": "babel -d build src -w & postcss -w --use autoprefixer src/style.css -o build/style.css & live-server --ignore=src,node_modules",
+    "postinstall": "cp node_modules/babel-polyfill/dist/polyfill.js build/babel-polyfill.js"
   },
   "repository": {
     "type": "git",
