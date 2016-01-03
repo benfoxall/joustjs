@@ -1,0 +1,35 @@
+{
+  "name": "joustjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel -d js src",
+    "watch": "babel -d js src -w & live-server --ignore=src,node_modules",
+    "postinstall": "cp node_modules/babel-polyfill/dist/polyfill.js js/babel-polyfill.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benfoxall/joustjs.git"
+  },
+  "author": "Ben Foxall (@benjaminbenben)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benfoxall/joustjs/issues"
+  },
+  "homepage": "https://github.com/benfoxall/joustjs#readme",
+  "dependencies": {
+    "babel": "^6.3.26",
+    "babel-cli": "^6.3.17",
+    "babel-polyfill": "^6.3.14",
+    "babel-preset-es2015": "^6.3.13"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "devDependencies": {
+    "live-server": "^0.9.0"
+  }
+}
